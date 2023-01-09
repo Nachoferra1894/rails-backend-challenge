@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, :authenticate_request, except: [:create, :login]
+  before_action :authenticate_request, except: [:create, :login]
   # GET /users
   def index
     @users = User.all
