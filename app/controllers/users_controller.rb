@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show update destroy ]
-
+  before_action :set_user, :authenticate_request, except: [:create, :login]
   # GET /users
   def index
     @users = User.all
@@ -18,20 +17,24 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: @user, status: :created, location: @user
+        token = encode_token(@user.id)
+        render json: { user: @user, jwt: token }, status: :created
     else
-      render json: @user.errors, status: :unprocessable_entity
+        render json: @user.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /users/1
-  def update
-    if @user.update(user_params)
-      render json: @user
+  # POST /users/login
+  def login
+    @user = User.find_by(email: params[:email])
+
+    if @user.authenticate(params[:password])
+        token = encode_token(@user.id)
+        render json: { user: @user, jwt: token }, status: :ok
     else
-      render json: @user.errors, status: :unprocessable_entity
+        render json: { error: 'Invalid username or password' }, status: :unprocessable_entity
     end
-  end
+end
 
   # DELETE /users/1
   def destroy
