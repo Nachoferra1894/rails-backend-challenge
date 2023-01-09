@@ -1,4 +1,10 @@
 class ApplicationController < ActionController::API
+    include ActionController::Helpers
+    include ActionController::Cookies
+    include ActionController::RequestForgeryProtection
+    before_action :set_session
+    
+    
     def paginate(records)
         pagy(records, items: params[:page_size] || 10)
     end
@@ -8,7 +14,6 @@ class ApplicationController < ActionController::API
 
         # create the payload with the user_id and expiry time
         payload = { user_id: user_id, exp: exp }
-
         JWT.encode(payload, ENV['JWT_SECRET'])
     end
 
@@ -29,8 +34,20 @@ class ApplicationController < ActionController::API
             render json: { error: 'Invalid token' }, status: 401
         end
         else
-        render json: { error: 'No token provided' }, status: 401
+            render json: { error: 'No token provided' }, status: 401
         end
     end
+
+    def current_user
+        @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    end
+ 
+    private
+        def set_session
+            cookies["CSRF-TOKEN"] = {
+                value: form_authenticity_token,
+                domain: :all 
+            }
+        end
 
 end

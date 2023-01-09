@@ -7,7 +7,7 @@ class Ability
     # Define abilities for the user here. For example:
     #
       can [:create,:login], User
-      return unless user.admin?
+      return unless user && user.admin?
         can :manage, :all
     #
     # The first argument to `can` is the action you are giving the user

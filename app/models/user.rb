@@ -10,4 +10,12 @@ class User < ApplicationRecord
   def assign_default_role
     self.add_role(:user) if self.roles.blank?
   end
+
+  def admin?
+    has_role?(:admin)
+  end
+
+  def user?
+    has_role?(:user)
+  end
 end

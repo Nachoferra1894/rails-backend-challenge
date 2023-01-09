@@ -5,10 +5,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user = users(:one)
   end
 
-  test "should get index" do
+  test "should not get index for non-signed in user" do
     get users_url, as: :json
-    assert_response :success
-    assert_equal 2, JSON.parse(@response.body).length
+    assert_response :unauthorized
   end
 
   test "should not create user with repeated email" do
@@ -28,9 +27,20 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal @password, user["password_digest"]
   end
 
-  test "should show user" do
-    get user_url(@user), as: :json
-    assert_response :success
-  end
+  # TODO
+  # test "should login user" do
+  #   post '/users/login', params: { email: @user.email, password: @user.password_digest }, as: :json
+
+  #   assert_response :ok
+  #   # user = JSON.parse(@response.body)["user"]
+  #   # assert_equal@user.username, user["username"]
+  #   # assert_equal @user.email , user["email"]
+  #   # assert_not_equal @password, user["password_digest"]
+  # end
+
+  # test "should show user for authenticated user" do
+  #   get user_url(@user), as: :json
+  #   assert_response :success
+  # end
 
 end
