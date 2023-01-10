@@ -1,5 +1,6 @@
 class SentMailsController < ApplicationController
   before_action :set_sent_mail, only: %i[ show update destroy ]
+  load_and_authorize_resource
 
   # GET /mails
   def index
@@ -20,15 +21,6 @@ class SentMailsController < ApplicationController
 
     if @sent_mail.save
       render json: @sent_mail, status: :created, location: @sent_mail
-    end
-  end
-
-  # PATCH/PUT /mails/1
-  def update
-    if @sent_mail.update(sent_mail_params)
-      render json: @sent_mail
-    else
-      render json: @sent_mail.errors, status: :unprocessable_entity
     end
   end
 

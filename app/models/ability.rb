@@ -8,8 +8,8 @@ class Ability
     #
       can [:create,:login], User
       if user && user.loged_in?
+        can [:show,:create], SentMail, user_id: user["id"] # Only user can see his own mails
         can [:show,:sent_mails], User, id: user["id"] # Only user can see his own profile
-        can [:show,:create], SentMail, user: user["id"] 
         # can [:show], User # Users can see all profiles
       end
       if user && user.admin?
