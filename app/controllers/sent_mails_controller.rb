@@ -19,7 +19,8 @@ class SentMailsController < ApplicationController
     @sent_mail = SentMail.new(sent_mail_params)
     @sent_mail.user = current_user
 
-    RailsMailer.send_email(@sent_mail).deliver_now
+    # RailsMailer.send_email(@sent_mail).deliver_now
+    MailgunMailer.send_email(@sent_mail).deliver_now
 
     if @sent_mail.save
       render json: @sent_mail, status: :created, location: @sent_mail
