@@ -52,10 +52,11 @@ jobs:
               uses: ruby/setup-ruby@ee2113536afb7f793eed4ce60e8d3b26db912da4 # v1.127.0
               with:
                   bundler-cache: true
-            # Add or replace any other lints here
+            - name: Add bin to PATH
+              run: echo "export PATH=$PATH:$(pwd)/bin" >> $GITHUB_ENV
             - name: Security audit dependencies
-              run: bundler-audit --update
+              run: bin/bundler-audit --update
             - name: Security audit application code
-              run: brakeman -q -w2
+              run: bin/brakeman -q -w2
             - name: Lint Ruby files
-              run: rubocop --parallel
+              run: bin/rubocop --parallel
