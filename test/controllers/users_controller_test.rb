@@ -28,7 +28,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal @password, user["password_digest"]
   end
 
-  # TODO
   test "should login user" do
     post users_url, params: { user: { email: @user.email + '1', password: @password, username: @user.username } }, as: :json
 
