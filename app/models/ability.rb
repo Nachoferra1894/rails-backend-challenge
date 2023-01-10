@@ -8,7 +8,8 @@ class Ability
     #
       can [:create,:login], User
       if user && user.loged_in?
-        can [:show], User
+        can [:show], User, id: user["id"] # Only user can see his own profile
+        # can [:show], User # Users can see all profiles
       end
       if user && user.admin?
         can :manage, :all
