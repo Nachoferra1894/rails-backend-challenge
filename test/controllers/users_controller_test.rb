@@ -3,6 +3,7 @@ require "test_helper"
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:one)
+    @password = 'MyString'
   end
 
   test "should not get index for non-signed in user" do
@@ -28,19 +29,36 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   # TODO
-  # test "should login user" do
-  #   post '/users/login', params: { email: @user.email, password: @user.password_digest }, as: :json
+  test "should login user" do
+    post users_url, params: { user: { email: @user.email + '1', password: @password, username: @user.username } }, as: :json
 
-  #   assert_response :ok
-  #   # user = JSON.parse(@response.body)["user"]
-  #   # assert_equal@user.username, user["username"]
-  #   # assert_equal @user.email , user["email"]
-  #   # assert_not_equal @password, user["password_digest"]
-  # end
+    assert_response :created
 
-  # test "should show user for authenticated user" do
-  #   get user_url(@user), as: :json
-  #   assert_response :success
-  # end
+    post '/users/login', params: { email: @user.email + '1', password: @password }, as: :json
+
+    assert_response :ok
+    user = JSON.parse(@response.body)["user"]
+    assert_equal @user.username, user["username"]
+    assert_equal @user.email+'1' , user["email"]
+    assert_not_equal @password, user["password_digest"]
+  end
+
+  test "should show user for authenticated user" do
+    token = get_token
+
+    get user_url(@user), as: :json, headers: {
+      'Authorization': "Bearer #{token}"
+    }
+    assert_response :success
+  end
+
+  private
+    def get_token
+      post users_url, params: { user: { email: @user.email + '1', password: @password, username: @user.username } }, as: :json
+      exp = Time.now.to_i + 24 * 3600
+      user = JSON.parse(@response.body)["user"]
+      payload = { user_id: user["id"], exp: exp }
+      JWT.encode(payload, ENV['JWT_SECRET'])
+    end
 
 end

@@ -15,7 +15,7 @@ class User < ApplicationRecord
     has_role?(:admin)
   end
 
-  def user?
+  def loged_in?
     has_role?(:user)
   end
 end
