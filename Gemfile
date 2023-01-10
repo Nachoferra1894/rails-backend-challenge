@@ -54,6 +54,8 @@ gem 'mailgun-ruby', '~>1.2.6'
 #Linter
 gem 'rubocop', require: false
 
+# For postgresql
+gem 'pg'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
