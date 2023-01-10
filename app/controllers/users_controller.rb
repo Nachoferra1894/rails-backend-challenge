@@ -9,6 +9,17 @@ class UsersController < ApplicationController
     render json: @users
   end
 
+    # GET /users/stats
+    def stats
+      users = User.all
+      date = Time.zone.now
+      users_with_emails_sent =  User.all.select {|user| user.emails_sent_on(date) > 0}
+      @stats = users_with_emails_sent.map { |user| [user.username, user.emails_sent_on(date)] }
+
+      render json: @stats
+    end
+  
+
   # GET /users/1
   def show
     render json: @user
