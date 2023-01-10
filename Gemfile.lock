@@ -138,6 +138,7 @@ GEM
     parallel (1.22.1)
     parser (3.2.0.0)
       ast (~> 2.4.1)
+    pg (1.4.5)
     puma (5.6.5)
       nio4r (~> 2.0)
     racc (1.6.2)
@@ -225,6 +226,7 @@ DEPENDENCIES
   jwt
   mailgun-ruby (~> 1.2.6)
   pagy (~> 6.0)
+  pg
   puma (~> 5.0)
   rails (~> 7.0.4)
   rolify
