@@ -16,6 +16,9 @@ class User < ApplicationRecord
   end
 
   def loged_in?
+    puts self
+    puts has_role?(:user)
+    puts self.roles
     has_role?(:user)
   end
 end

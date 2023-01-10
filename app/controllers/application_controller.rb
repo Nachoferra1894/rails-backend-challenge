@@ -2,6 +2,7 @@ class ApplicationController < ActionController::API
     include ActionController::Helpers
     include ActionController::Cookies
     include ActionController::RequestForgeryProtection
+    include Pagy::Backend
     before_action :set_session
     
     
