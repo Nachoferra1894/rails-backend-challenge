@@ -7,8 +7,14 @@ class Ability
     # Define abilities for the user here. For example:
     #
       can [:create,:login], User
-      return unless user.admin?
+      if user && user.loged_in?
+        can [:show], User, id: user["id"] # Only user can see his own profile
+        # can [:show], User # Users can see all profiles
+      end
+      if user && user.admin?
         can :manage, :all
+      end
+      
     #
     # The first argument to `can` is the action you are giving the user
     # permission to do.
