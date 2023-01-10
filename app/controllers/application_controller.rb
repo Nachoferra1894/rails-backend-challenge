@@ -11,7 +11,7 @@ class ApplicationController < ActionController::API
     end
 
     def encode_token(user_id)
-        exp = Time.now.to_i + 24 * 3600
+        exp = Time.now.to_i + 3600
 
         # create the payload with the user_id and expiry time
         payload = { user_id: user_id, exp: exp }
