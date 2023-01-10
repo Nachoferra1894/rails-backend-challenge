@@ -14,6 +14,13 @@ class UsersController < ApplicationController
     render json: @user
   end
 
+  # GET users/sent_mails
+  def sent_mails
+    @sent_mails = SentMail.where(user: current_user["id"])
+
+    render json: @sent_mails
+  end
+
   # POST /users
   def create
     @user = User.new(user_params)

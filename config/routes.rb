@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :sent_mails
+  resources :sent_mails, path: 'mails'
+  
+  get 'users/sent_mails' => 'users#sent_mails'
   resources :users
 
   post 'users/login' => 'users#login'
