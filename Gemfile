@@ -46,7 +46,6 @@ gem 'pagy', '~> 6.0' # omit patch digit
 
 # For .env files
 gem 'dotenv-rails', groups: [:development, :test]
-
 # For sending emails
 gem 'mailgun-ruby', '~>1.2.6'
 
@@ -56,6 +55,9 @@ gem 'rubocop', require: false
 
 # For postgresql
 gem 'pg'
+
+# Use Active Model Serializers for easier JSON generation 
+gem 'active_model_serializers', '~> 0.10.13'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
