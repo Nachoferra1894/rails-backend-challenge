@@ -7,5 +7,5 @@ one:
 
 two:
     username: MyString
-    email: MyString@mail.com
+    email: MyString2@mail.com
     password_digest: $2a$12$2tmUawee.mn8UBmeOJGjHuLr0JD5biLu8Hd5iJvlAa2NI1Hev5CjC

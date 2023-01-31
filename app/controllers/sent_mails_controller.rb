@@ -1,39 +1,42 @@
 class SentMailsController < ApplicationController
   before_action :set_sent_mail, only: %i[ show update destroy ]
+  load_and_authorize_resource
 
-  # GET /sent_mails
+    # GET /mails/all
+    def all_mails
+      @pagy, @user_mails = paginate(SentMail.all)
+  
+      render json: @user_mails
+    end
+
+  # GET /mails
   def index
-    @sent_mails = SentMail.all
+    @pagy, @user_mails = paginate(SentMail.where(user: current_user["id"]))
 
-    render json: @sent_mails
+    render json: @user_mails
   end
 
-  # GET /sent_mails/1
+  # GET /mails/1
   def show
     render json: @sent_mail
   end
 
-  # POST /sent_mails
+  # POST /mails
   def create
     @sent_mail = SentMail.new(sent_mail_params)
+    @sent_mail.user = current_user
+
+    RailsMailer.send_email(@sent_mail).deliver_now 
+    # MailgunMailer.send_email(@sent_mail).deliver_now Real mails will be delivered if this is uncommented
 
     if @sent_mail.save
       render json: @sent_mail, status: :created, location: @sent_mail
     else
       render json: @sent_mail.errors, status: :unprocessable_entity
-    end
+  end
   end
 
-  # PATCH/PUT /sent_mails/1
-  def update
-    if @sent_mail.update(sent_mail_params)
-      render json: @sent_mail
-    else
-      render json: @sent_mail.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /sent_mails/1
+  # DELETE /mails/1
   def destroy
     @sent_mail.destroy
   end
@@ -46,6 +49,6 @@ class SentMailsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sent_mail_params
-      params.require(:sent_mail).permit(:user_id, :receiver, :subject, :body)
+      params.require(:mail).permit(:receiver, :subject, :body)
     end
 end

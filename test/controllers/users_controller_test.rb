@@ -43,21 +43,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show user for authenticated user" do
-    token = get_token
+    token = login_as_admin
 
     get user_url(@user), as: :json, headers: {
       'Authorization': "Bearer #{token}"
     }
     assert_response :success
   end
-
-  private
-    def get_token
-      post users_url, params: { user: { email: @user.email + '1', password: @password, username: @user.username } }, as: :json
-      exp = Time.now.to_i + 24 * 3600
-      user = JSON.parse(@response.body)["user"]
-      payload = { user_id: user["id"], exp: exp }
-      JWT.encode(payload, ENV['JWT_SECRET'])
-    end
 
 end
