@@ -1,7 +1,11 @@
 ENV["RAILS_ENV"] ||= "test"
+require 'simplecov'
+if ENV['COVERAGE'] == 'true' 
+  SimpleCov.start 'rails'
+end
+
 require_relative "../config/environment"
 require "rails/test_help"
-
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)

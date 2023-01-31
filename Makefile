@@ -9,7 +9,7 @@ down:
 migratetest:
 	rails db:migrate RAILS_ENV=test
 coverage:
-	COVERAGE=true rake test && open coverage/index.html
+	COVERAGE=true rake test
 seecoverage:
 	open coverage/index.html
 test:
