@@ -12,6 +12,7 @@ on:
         branches: ["main"]
 jobs:
     test:
+        permissions: write-all
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -41,7 +42,13 @@ jobs:
               run: |
                   echo "${{ secrets.ENV_FILE }}" > .env
             - name: Run tests
-              run: bin/rake
+              run: COVERAGE=true bundle exec rake test
+
+            # Action to add minimum coverage check
+            - uses: joshmfrankel/simplecov-check-action@main
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  minimum_suite_coverage: 80
 
     lint:
         runs-on: ubuntu-latest
