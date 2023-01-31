@@ -47,8 +47,8 @@ class UsersController < ApplicationController
 
   # POST /users/login
   def login
-    @user = User.find_by(email: params[:email])
-    if @user && @user.authenticate(params[:password])
+    @user = User.find_by(email: user_params[:email])
+    if @user && @user.authenticate(user_params[:password])
         token = encode_token(@user.id)
         session[:user_id] = @user.id
         render json: { user: @user, jwt: token }, status: :ok

@@ -28,8 +28,8 @@ WORKDIR /app
 COPY Gemfile /Gemfile
 COPY Gemfile.lock /Gemfile.lock
 RUN bundle install
-RUN rails db:migrate
-RUN rails db:seed
+RUN RAILS_ENV=development rails db:migrate 
+RUN RAILS_ENV=development rails db:migrate 
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
