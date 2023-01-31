@@ -12,6 +12,7 @@ on:
         branches: ["main"]
 jobs:
     test:
+        permissions: write-all
         runs-on: ubuntu-latest
         services:
             postgres:
