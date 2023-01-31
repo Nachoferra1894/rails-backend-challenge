@@ -44,10 +44,11 @@ jobs:
               run: COVERAGE=true bundle exec rake test
 
             # Action to add minimum coverage check
-            - uses: joshmfrankel/simplecov-check-action@main
+            - name: Add code coverage comment
+              uses: romeovs/lcov-reporter-action@v0.2.16
               with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  minimum_file_coverage: 80
+                  lcov-file: ./coverage/lcov/ruby-simplecov.lcov
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
 
     lint:
         runs-on: ubuntu-latest

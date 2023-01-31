@@ -1,5 +1,5 @@
 {
-  "Minitest": {
+  "RSpec": {
     "coverage": {
       "/Users/nachoferrari/Desktop/Sirius/ruby/rails-backend-challenge/app/channels/application_cable/channel.rb": {
         "lines": [
@@ -409,8 +409,15 @@
           1,
           null
         ]
+      },
+      "/Users/nachoferrari/Desktop/Sirius/ruby/rails-backend-challenge/lib/contrived_math.rb": {
+        "lines": [
+
+        ],
+        "branches": {
+        }
       }
     },
-    "timestamp": 1675170703
+    "timestamp": 1675172262
   }
 }

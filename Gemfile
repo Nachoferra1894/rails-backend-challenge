@@ -59,8 +59,7 @@ gem 'pg'
 # Use Active Model Serializers for easier JSON generation 
 gem 'active_model_serializers', '~> 0.10.13'
 
-# For testing coverage
-gem 'simplecov', require: false, group: :test
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -77,3 +76,11 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
+
+group :test do
+  # For testing coverage
+  gem 'simplecov'
+  gem "rspec", "~> 3.12"
+  gem "simplecov-lcov", "~> 0.8.0"
+end
+
