@@ -41,7 +41,7 @@ jobs:
               run: |
                   echo "${{ secrets.ENV_FILE }}" > .env
             - name: Run tests
-              run: COVERAGE=true rake test
+              run: COVERAGE=true bundle exec rake test
 
             # Action to add minimum coverage check
             - uses: joshmfrankel/simplecov-check-action@main
