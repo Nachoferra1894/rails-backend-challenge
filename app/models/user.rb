@@ -6,6 +6,7 @@ class User < ApplicationRecord
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP } , presence: true, uniqueness: true
   validates :username, presence: true
   validates :password, presence: true, length: { minimum: 6 }
+  scope :with_today_sent_mails, ->(date,sent_mails=0) { where("emails_sent_on(?) >= ?", date,sent_mails) }
 
 
   def assign_default_role

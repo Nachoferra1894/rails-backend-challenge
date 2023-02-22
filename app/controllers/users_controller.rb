@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     def stats
       users = User.all
       date = Time.zone.now
-      users_with_emails_sent =  User.all.select {|user| user.emails_sent_on(date) > 0}
+      users_with_emails_sent =  User.with_today_sent_mails(date)
       @stats = users_with_emails_sent.map { |user| [user.username, user.emails_sent_on(date)] }
 
       render json: @stats
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
   # POST /users
   def create
     new_user = User.new(user_params)
-    new_user.password = params[:password]
+    new_user.password = user_params[:password]
     if new_user.save
         token = encode_token(new_user.id)
         session[:user_id] = new_user.id
