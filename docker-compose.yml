@@ -1,22 +1,30 @@
 version: '3'
 services:
-  db:
+  database:
     image: postgres:14.1-alpine
     environment:
-      POSTGRES_DB: app_db
+      POSTGRES_DB: sirius-backend-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - database:/var/lib/postgresql/data
   web:
-    build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    build:
+      context: .
+      dockerfile: 'Dockerfile'
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 8080 -b '0.0.0.0'"
     environment:
       - DB_URL=postgresql://postgres:postgres@database:5432/sirius-backend-db
       - RAILS_ENV=development
     ports:
-      - "3001:3000"
+      - "8080:8080"
     depends_on:
-      - db
+      - database
     volumes:
-      - .:/rails-be-conditioner
+      - .:/app
+
+volumes:
+  database:
+    driver: local

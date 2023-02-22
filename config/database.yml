@@ -31,7 +31,7 @@ development:
     password: postgres
     pool: 5
     database: sirius-backend-db
-    url: <%= ENV['DB_URL'] %>
+    url: <%= ENV.fetch('DB_URL') %>
 
 # production:
 #     <<: *default
